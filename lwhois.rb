@@ -10,7 +10,11 @@ class Lwhois
     @entries.each {|entry|
       return entry[:domain] if IPAddr.new(entry[:network]).include?(ipaddress)
     }
-    printf("%s: no match!\n", ipaddress)
-    exit(1)
+		if IPAddr.new(ipaddress).ipv4?
+      return 'external'
+    else
+      printf('%s is not IPv4 address.\n', ipaddress)
+      exit(1)
+    end
   end
 end
